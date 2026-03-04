@@ -1,8 +1,8 @@
 const apiUrl = "https://69a77efa2cd1d0552690c46c.mockapi.io/api/assigment/table";
 
-async function fetchData(url, data) {
+function fetchData(url, data) {
     try {
-        const response = await fetch(url, {
+        const response =  fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -14,7 +14,7 @@ async function fetchData(url, data) {
             throw new Error("Thêm phòng thất bại");
         }
 
-        const result = await response.json();
+        const result =  response.json();
         alert("Thêm phòng thành công!");
         console.log(result);
 
@@ -22,15 +22,15 @@ async function fetchData(url, data) {
         console.error(error.message);
     }
 }
-async function getRooms() {
+function getRooms() {
     try {
-        const response = await fetch(apiUrl);
+        const response = fetch(apiUrl);
 
         if (!response.ok) {
             throw new Error("Không lấy được dữ liệu");
         }
 
-        const rooms = await response.json();
+        const rooms = response.json();
         renderRooms(rooms);
 
     } catch (error) {
