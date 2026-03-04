@@ -1,6 +1,5 @@
 const apiUrl = "https://69a77efa2cd1d0552690c46c.mockapi.io/api/assigment/table";
 
-// Gửi dữ liệu lên mock
 async function fetchData(url, data) {
     try {
         const response = await fetch(url, {
@@ -23,8 +22,41 @@ async function fetchData(url, data) {
         console.error(error.message);
     }
 }
+async function getRooms() {
+    try {
+        const response = await fetch(apiUrl);
 
-// Lấy dữ liệu từ form
+        if (!response.ok) {
+            throw new Error("Không lấy được dữ liệu");
+        }
+
+        const rooms = await response.json();
+        renderRooms(rooms);
+
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+function renderRooms(rooms) {
+    const container = document.getElementById("roomContainer");
+    container.innerHTML = "";
+
+    rooms.forEach(room => {
+        const card = document.createElement("div");
+        card.className = "room-card";
+
+        card.innerHTML = `
+            <img src="${room.image}" alt="room">
+            <div class="room-title">${room.name}</div>
+            <div>${room.describe}</div>
+            <div class="room-price">${room.quantity} đ</div>
+            <button class="book-btn">Đặt Ngay</button>
+        `;
+
+        container.appendChild(card);
+    });
+}
+
 function getData() {
     let name = document.getElementById("name_room").value;
     let describe = document.getElementById("describe_room").value;
@@ -39,7 +71,7 @@ function getData() {
 
     fetchData(apiUrl, newData);
 }
-
-// Gắn sự kiện click
 document.getElementById("addRoomBtn")
         .addEventListener("click", getData);
+document.getElementById("showRoombtn")
+        .addEventListener("click", getRooms);
